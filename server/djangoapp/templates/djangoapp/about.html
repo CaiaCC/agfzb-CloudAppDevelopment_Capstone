@@ -30,19 +30,17 @@
                 Welcome to Best Cars dealership, home to the best cars in North America. We sell domestic and imported cars at reasonable prices.
             </p>
         </main>
-        
+
         <!--Footer -->
-        <div class="container">
-            <footer class="py-3 my-4">
-                <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-                    <li class="nav justify-content-center border-bottom pb-3 mb-3">
-                        <a class="nav-link px-2 text-muted" href="{% url 'djangoapp:about' %}">About Us</a>
-                        <a class="nav-link px-2 text-muted" href="{% url 'djangoapp:contact' %}">Contact Us</a>
-                    <li>
-                </ul>
-                <p class="text-center text-muted">© 2024 Best Cars dealership</p>
-            </footer>
-        <div>
+        <footer class="footer fixed-bottom navbar-expand-lg bg-dark navbar-dark ">
+            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                <li class="nav justify-content-center border-bottom pb-3 mb-3 ">
+                    <a class="nav-link px-2 text-light " href="{% url 'djangoapp:about' %}">About Us</a>
+                    <a class="nav-link px-2 text-light" href="{% url 'djangoapp:contact' %}">Contact Us</a>
+                <li>
+            </ul>
+            <p class="text-center text-light">© 2024 Best Cars dealership</p>
+        </footer>
     </body>
 
 </html>
