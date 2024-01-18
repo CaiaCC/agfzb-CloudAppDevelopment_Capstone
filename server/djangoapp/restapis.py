@@ -7,19 +7,17 @@ from requests.auth import HTTPBasicAuth
 def get_request(url, **kwargs):
     print(kwargs)
     print("GET from {} ".format(url))
+    json_data = {}
     try:
         # Call get method of requests library with URL and parameters
         response = requests.get(url, headers={'Content-Type': 'application/json'},
                                     params=kwargs)
-    except:
-        # If any error occurs
-        print("Network exception occurred")
-    status_code = response.status_code
-    print("With status {} ".format(status_code))
-    json_data = json.loads(response.text)
+        status_code = response.status_code
+        print("With status {} ".format(status_code))
+        json_data = json.loads(response.text)
+    except Exception as error:
+        print("Network exception occurred", error)
     return json_data
-Copied!
-                               auth=HTTPBasicAuth('apikey', api_key))
 
 
 # Create a `post_request` to make HTTP POST requests
