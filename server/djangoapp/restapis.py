@@ -50,8 +50,8 @@ def get_dealer_reviews_from_cf(url, dealerId):
 # - Parse JSON results into a DealerView object list
     results = []
     # Call get_request with URL and dealerId parameter
-    json_result = get_request(url, dealerId=dealerId)
-    print("get_dealer_by_id_from_cf", json_result)
+    json_result = get_request(url, id=dealerId)
+    print("get_dealer_reviews_from_cf", json_result)
     if json_result:
         # Get the row list in JSON as reviews
         reviews = json_result
@@ -69,7 +69,7 @@ def get_dealer_reviews_from_cf(url, dealerId):
                         car_make=review_doc["car_make"],
                         car_model=review_doc["car_model"],
                         car_year=review_doc["car_year"],
-                        sentiment=review_doc["sentiment"],
+                        sentiment=review_doc["review"],
                         id=review_doc["id"])
             results.append(review_obj)
 

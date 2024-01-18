@@ -84,7 +84,7 @@ class DealerReview:
         # Dealer car_year
         self.car_year = car_year
         # Dealer sentiment
-        self.sentiment = "sentiment"
+        self.sentiment = sentiment
         # Dealer id
         self.id = id
 
