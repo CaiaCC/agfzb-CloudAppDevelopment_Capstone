@@ -102,18 +102,7 @@ def add_review(request, dealer_id):
     # only authenticated users can post reviews for a dealer
     if (request.user.is_authenticated):
         # requied field: ['id', 'name', 'dealership', 'review', 'purchase', 'purchase_date', 'car_make', 'car_model', 'car_year']
-        # {
-            
-        #     "car_make": "Audi",
-        #     "car_model": "A6",
-        #     "car_year": 2010,
-        #     "dealership": 15,
-        #     "id": 1,
-        #     "name": "Berkly Shepley",
-        #     "purchase": true,
-        #     "purchase_date": "07/11/2020",
-        #     "review": "Total grid-enabled service-desk"
-        # },
+
         review = {}
         review["id"] = 123
         review["name"] = "Caia Chuang"
@@ -124,10 +113,7 @@ def add_review(request, dealer_id):
         review["car_make"] = "Jeep"
         review["car_model"] = "Wrangler"
         review["car_year"] = 2024
-        # review["time"] = datetime.utcnow().isoformat()
         
-        json_payload = {}
-        json_payload["review"] = review
 
         response = post_request(url, review, dealerId=dealer_id)
 
