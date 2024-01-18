@@ -1,4 +1,5 @@
 {
-    "COUCH_URL": "",
-    "IAM_API_KEY": ""
+    "COUCH_URL": "https://adca7895-3c00-48f3-bc00-d4d3bee9b866-bluemix.cloudantnosqldb.appdomain.cloud",
+    "IAM_API_KEY": "Ztx6FKJZAfNyko5RoMPeuMfLjPygvIl7eXuzfvsCl3I0",
+    "COUCH_USERNAME": "adca7895-3c00-48f3-bc00-d4d3bee9b866-bluemix"
 }
