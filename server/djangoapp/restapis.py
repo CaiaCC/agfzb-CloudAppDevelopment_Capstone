@@ -9,7 +9,12 @@ def get_request(url, **kwargs):
     print("GET from {} ".format(url))
     json_data = {}
     try:
-        # Call get method of requests library with URL and parameters
+        if 'apikey' in kwargs:
+            # Basic authentication GET
+            requests.get(url, data=kwargs, headers={'Content-Type': 'application/json'},
+                                    auth=HTTPBasicAuth('apikey', kwargs['api_key']))
+        else:
+        # no authentication GET
         response = requests.get(url, headers={'Content-Type': 'application/json'},
                                     params=kwargs)
         status_code = response.status_code
