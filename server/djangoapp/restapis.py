@@ -74,7 +74,7 @@ def get_dealer_reviews_from_cf(url, dealerId):
                         car_make=review_doc["car_make"],
                         car_model=review_doc["car_model"],
                         car_year=review_doc["car_year"],
-                        sentiment=review_doc["review"],
+                        sentiment=analyze_review_sentiments(review_doc["review"]),
                         id=review_doc["id"])
             results.append(review_obj)
 
@@ -82,7 +82,7 @@ def get_dealer_reviews_from_cf(url, dealerId):
 
 
 # Create an `analyze_review_sentiments` method to call Watson NLU and analyze text
-# def analyze_review_sentiments(text):
+def analyze_review_sentiments(text):
 # - Call get_request() with specified arguments
 # - Get the returned sentiment label such as Positive or Negative
 
