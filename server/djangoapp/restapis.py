@@ -11,12 +11,10 @@ def get_request(url, **kwargs):
     try:
         if 'apikey' in kwargs:
             # Basic authentication GET
-            requests.get(url, data=kwargs, headers={'Content-Type': 'application/json'},
-                                    auth=HTTPBasicAuth('apikey', kwargs['api_key']))
+            requests.get(url, data=kwargs, headers={'Content-Type': 'application/json'}, auth=HTTPBasicAuth('apikey', kwargs['api_key']))
         else:
-        # no authentication GET
-        response = requests.get(url, headers={'Content-Type': 'application/json'},
-                                    params=kwargs)
+            # no authentication GET
+            response = requests.get(url, headers={'Content-Type': 'application/json'}, params=kwargs)
         status_code = response.status_code
         print("With status {} ".format(status_code))
         json_data = json.loads(response.text)
@@ -83,6 +81,7 @@ def get_dealer_reviews_from_cf(url, dealerId):
 
 # Create an `analyze_review_sentiments` method to call Watson NLU and analyze text
 def analyze_review_sentiments(text):
+    return "HELLO"
 # - Call get_request() with specified arguments
 # - Get the returned sentiment label such as Positive or Negative
 

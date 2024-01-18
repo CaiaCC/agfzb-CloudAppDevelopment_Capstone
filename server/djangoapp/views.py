@@ -91,7 +91,7 @@ def get_dealer_details(request, dealer_id):
         url = f"https://caiachuang-5000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/get_reviews"
         # Get dealer's reviews from the URL
         reviews = get_dealer_reviews_from_cf(url, dealer_id)
-        review_sentiments = ' '.join([reviews.sentiment for review in reviews])       
+        review_sentiments = ' '.join([review.sentiment for review in reviews])       
         # Return a list of dealer reviews
         return HttpResponse(review_sentiments)
 
