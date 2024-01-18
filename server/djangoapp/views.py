@@ -3,10 +3,10 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 # from .models import related models
-from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf
+from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf, post_request
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
-from datetime import datetime
+from datetime import datetime, date
 import logging
 import json
 
@@ -96,6 +96,29 @@ def get_dealer_details(request, dealer_id):
         return HttpResponse(review_sentiments)
 
 # Create a `add_review` view to submit a review
-# def add_review(request, dealer_id):
-# url = "https://caiachuang-5000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
+def add_review(request, dealer_id):
+    
+    url = "https://caiachuang-5000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
+    # only authenticated users can post reviews for a dealer
+    if (request.user.is_authenticated):
+        # requied field: ['id', 'name', 'dealership', 'review', 'purchase', 'purchase_date', 'car_make', 'car_model', 'car_year']
 
+        review = {}
+        review["id"] = 123
+        review["name"] = "Caia Chuang"
+        review["dealership"] = dealer_id
+        review["review"] = "Testing add review"
+        review["purchase"] = True
+        review["purchase_date"] =  date.today()
+        review["car_make"] = "Jeep"
+        review["car_model"] = "Wrangler"
+        review["car_year"] = 2024
+        # review["time"] = datetime.utcnow().isoformat()
+        
+        json_payload = {}
+        json_payload["review"] = review
+
+        response = post_request(url, review, dealerId=dealer_id)
+
+        print("add_review response", response)
+        return HttpResponse(response)
