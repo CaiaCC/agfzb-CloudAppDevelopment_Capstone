@@ -83,7 +83,6 @@ def get_dealerships(request):
         return render(request, 'djangoapp/index.html', context)
 
 
-# Create a `get_dealer_details` view to render the reviews of a dealer
 def get_dealer_details(request, dealer_id):
     context = {}
     if request.method == "GET":
@@ -95,7 +94,7 @@ def get_dealer_details(request, dealer_id):
 
         return render(request, 'djangoapp/dealer_details.html', context)
 
-# Create a `add_review` view to submit a review
+
 def add_review(request, dealer_id):
     if request.method == "GET":
         context = {}
@@ -139,5 +138,5 @@ def add_review(request, dealer_id):
                 response = post_request(url, review, dealer_id=dealer_id)
             except Exception as error:
                 print("Post Review Error:", error)
-            
+
             return redirect("djangoapp:dealer_details", dealer_id=dealer_id)

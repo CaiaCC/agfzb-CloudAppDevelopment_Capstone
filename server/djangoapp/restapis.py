@@ -30,7 +30,6 @@ def post_request(url, json_payload, **kwargs):
 
     try:
         response = requests.post(url, json=json_payload, params=kwargs)
-
         json_data = json.loads(response.text)
         status_code = response.status_code
         print("POST With status {} ".format(status_code))
@@ -108,7 +107,6 @@ def get_dealer_reviews_from_cf(url, dealerId):
     return results
 
 
-# Create an `analyze_review_sentiments` method to call Watson NLU and analyze text
 def analyze_review_sentiments(review):
     NLU_API_KEY = "vw87ZFFr3Odo0UAxRWaS0dCsHdLXxQHvBHcGJBeXOMEq"
     NLU_URL = 'https://api.us-east.natural-language-understanding.watson.cloud.ibm.com/instances/f023178b-ec56-4ae4-8e5d-de4d6208f6a8/v1/analyze?version=2022-04-07'
