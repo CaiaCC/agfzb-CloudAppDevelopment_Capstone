@@ -96,11 +96,9 @@ def get_dealer_reviews_from_cf(url, dealerId):
 def analyze_review_sentiments(review):
     NLU_API_KEY = "vw87ZFFr3Odo0UAxRWaS0dCsHdLXxQHvBHcGJBeXOMEq"
     NLU_URL = 'https://api.us-east.natural-language-understanding.watson.cloud.ibm.com/instances/f023178b-ec56-4ae4-8e5d-de4d6208f6a8/v1/analyze?version=2022-04-07'
-    features = ["sentiment"]
-    analysis = get_request(NLU_URL, apikey=NLU_API_KEY, features=features, text=review)
+    # features = ["sentiment"]
+    # analysis = get_request(NLU_URL, apikey=NLU_API_KEY, features=features, text=review)
+    params = json.dumps({"text": review, "features": {"sentiment": {}}})
+    analysis = requests.post(NLU_URL, data=params, headers={'Content-Type':'application/json'}, auth=HTTPBasicAuth("apikey", NLU_API_KEY))
     print("sentiment analysis", analysis)
     return "Sentiment PlaceHolder"
-
-
-
-
