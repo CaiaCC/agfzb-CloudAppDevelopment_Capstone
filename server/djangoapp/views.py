@@ -91,9 +91,9 @@ def get_dealer_details(request, dealer_id):
         url = "https://caiachuang-5000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/get_reviews"
         # Get dealer's reviews from the URL
         reviews = get_dealer_reviews_from_cf(url, dealer_id)
-        context["review_list"] = reviews    
+        context["review_list"] = reviews
         context["dealer_id"] = dealer_id
-        
+
         return render(request, 'djangoapp/dealer_details.html', context)
 
 # Create a `add_review` view to submit a review
@@ -114,22 +114,33 @@ def add_review(request, dealer_id):
         if (request.user.is_authenticated):
             # requied field: ['id', 'name', 'dealership', 'review', 'purchase', 'purchase_date', 'car_make', 'car_model', 'car_year']
             data = request.POST
+            print("data", data)
             review = {}
-            review["id"] = 123
+            if "purchasecheck" in data:
+                has_purchased = True
+            else:
+                has_purchased = False
+
+            if has_purchased:
+                # car_id = int(data["car"])
+                # car = CarModel.objects.filter(id=car_id)
+                cars = CarModel.objects.filter(dealer_id=dealer_id)
+                for car in cars:
+                    print("CAR", car)
+                    if car.id == int(request.POST['car']):
+                        review_car = car
+                # print("CAR", car)
+                # CAR Name: Patriot,Dealer ID: 7,Type: suv,Year: 2017
+                # review["car_make"] = car["Name"]
+                # review["car_model"] = car["Type"]
+                # review["car_year"]= car["Year"].strftime("%Y")
+
             review["name"] = f"{request.user.first_name} {request.user.last_name}"
             review["dealership"] = dealer_id
             review["review"] = data["content"]
             review["purchase"] = data.get("purchasecheck")
-            review["time"] = datetime.utcnow().isoformat()
+            review["purchasedate"] = has_purchased
 
-            if data.get("purchasecheck"):
-                review["purchasedate"] = datetime.strptime(data.get("purchasedate"), "%d/%m/%Y").isoformat()
-                car = CarModel.objects.get(pk=data["car"])
-                print("CAR", car)
-                # CAR Name: Patriot,Dealer ID: 7,Type: suv,Year: 2017
-                review["car_make"] = car["Name"]
-                review["car_model"] = car["Type"]
-                review["car_year"]= car["Year"].strftime("%Y")
 
             json_payload["review"] = review
             response = post_request(url, json_payload, dealerId=dealer_id)
