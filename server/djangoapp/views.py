@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
-# from .models import related models
-from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf, post_request
+from .models import CarModel
+from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf, post_request, get_dealer_by_id_from_cf
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime, date
@@ -92,30 +92,39 @@ def get_dealer_details(request, dealer_id):
         # Get dealer's reviews from the URL
         reviews = get_dealer_reviews_from_cf(url, dealer_id)
         context["review_list"] = reviews    
+        context["dealer_id"] = dealer_id
         
         return render(request, 'djangoapp/dealer_details.html', context)
 
 # Create a `add_review` view to submit a review
 def add_review(request, dealer_id):
-    
-    url = "https://caiachuang-5000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
-    # only authenticated users can post reviews for a dealer
-    if (request.user.is_authenticated):
-        # requied field: ['id', 'name', 'dealership', 'review', 'purchase', 'purchase_date', 'car_make', 'car_model', 'car_year']
+    context = {}
+    if request.method == "GET":
+        url = "https://caiachuang-3000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
+        dealer = get_dealer_by_id_from_cf(url, dealer_id)
+        context["dealer_name"] = dealer["full_name"]
+        context["cars"] = CarModel.objects.all()
+        context["dealer_id"] = dealer_id
+        return render(request, 'djangoapp/add_review.html', context)
 
-        review = {}
-        review["id"] = 123
-        review["name"] = "Caia Chuang"
-        review["dealership"] = 15
-        review["review"] = "Testing add review"
-        review["purchase"] = True
-        review["purchase_date"] = datetime.utcnow().isoformat()
-        review["car_make"] = "Jeep"
-        review["car_model"] = "Wrangler"
-        review["car_year"] = 2024
-        
+    if request.method == "POST":
+        url = "https://caiachuang-5000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
+        # only authenticated users can post reviews for a dealer
+        if (request.user.is_authenticated):
+            # requied field: ['id', 'name', 'dealership', 'review', 'purchase', 'purchase_date', 'car_make', 'car_model', 'car_year']
+            print(request.POST)
+            review = {}
+            review["id"] = 123
+            review["name"] = "Caia Chuang"
+            review["dealership"] = 15
+            review["review"] = "Testing add review"
+            review["purchase"] = True
+            review["purchase_date"] = datetime.utcnow().isoformat()
+            review["car_make"] = "Jeep"
+            review["car_model"] = "Wrangler"
+            review["car_year"] = 2024
 
-        response = post_request(url, review, dealerId=dealer_id)
+            response = post_request(url, review, dealerId=dealer_id)
 
-        print("add_review response", response)
-        return HttpResponse(response)
+            print("add_review response", response)
+            return redirect("djangoapp:dealer_details", dealer_id=dealer_id)
