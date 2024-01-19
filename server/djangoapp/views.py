@@ -80,7 +80,6 @@ def get_dealerships(request):
         url = "https://caiachuang-3000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
         dealerships = get_dealers_from_cf(url)
         context["dealership_list"] = dealerships
-        print("dealerships context", context)
         return render(request, 'djangoapp/index.html', context)
 
 
@@ -103,7 +102,10 @@ def add_review(request, dealer_id):
         url = "https://caiachuang-3000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
         dealer = get_dealer_by_id_from_cf(url, dealer_id)
         context["dealer_name"] = dealer["full_name"]
-        context["cars"] = CarModel.objects.all()
+
+        context["cars"] = CarModel.objects.filter(dealer_id=dealer_id)
+        for car in context["cars"]:
+            print("CAR", car)
         context["dealer_id"] = dealer_id
         return render(request, 'djangoapp/add_review.html', context)
 

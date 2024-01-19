@@ -72,7 +72,6 @@ def get_dealer_by_id_from_cf(url, dealerId):
     json_result = get_request(url, id=dealerId)
 
     if json_result:
-        print("dealer by id", json_result)
         return json_result[0]
     else:
         return {}
