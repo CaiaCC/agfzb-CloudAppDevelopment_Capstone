@@ -121,13 +121,14 @@
 					</label>
 				</div>
 				<div class="mb-3">
-					<label for="car" class="form-label"
-						>Select Your Car( Model-Make-Year)</label
-					>
+					<label for="car" class="form-label">Select Your Car( Model-Make-Year)</label>
 					<select name="car" id="car" class="form-select" required>
+						<option selected value="{{None}}">
+							Select Your Car
+						</option>
 						{% for car in cars %}
-						<option selected value="{{car.id}}">
-							{{car.name}}-{{car.car_type.name}}-{{ car.year|date:"Y" }}
+						<option value="{{car.id}}">
+							{{car.name}}-{{car.car_type}}-{{ car.year|date:"Y" }}
 						</option>
 						{% endfor %}
 					</select>

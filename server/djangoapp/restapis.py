@@ -16,26 +16,27 @@ def get_request(url, **kwargs):
             # no authentication GET
             response = requests.get(url, headers={'Content-Type': 'application/json'}, params=kwargs)
         status_code = response.status_code
-        print("With status {} ".format(status_code))
+        print("GET With status {} ".format(status_code))
         json_data = json.loads(response.text)
     except Exception as error:
-        print("Network exception occurred", error)
+        print("Get Request exception occurred", error)
     return json_data
 
 
 def post_request(url, json_payload, **kwargs):
     json_data = {}
+    print(kwargs)
+    print("Post from {} ".format(url))
 
     try:
         response = requests.post(url, json=json_payload, params=kwargs)
-        print("post response", response)
-        status_code = response.status_code
-        print("With status {} ".format(status_code))
+
         json_data = json.loads(response.text)
-        print("post_request", json_data)
+        status_code = response.status_code
+        print("POST With status {} ".format(status_code))
 
     except Exception as error:
-        print("Network exception occurred", error)
+        print("Post Request exception occurred", error)
     return json_data
 
 
@@ -120,7 +121,7 @@ def analyze_review_sentiments(review):
         label = response.json()['sentiment']['document']['label']
         return label
     except Exception as error:
-        print("Error:", error)
+        print("Analyze Sentiments Exception Occur:", error)
         return 'neutral'
 
 

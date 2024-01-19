@@ -110,42 +110,34 @@ def add_review(request, dealer_id):
         return render(request, 'djangoapp/add_review.html', context)
 
     if request.method == "POST":
-        json_payload = {}
         url = "https://caiachuang-5000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
         # only authenticated users can post reviews for a dealer
         if (request.user.is_authenticated):
-            # requied field: ['id', 'name', 'dealership', 'review', 'purchase', 'purchase_date', 'car_make', 'car_model', 'car_year']
             data = request.POST
-            print("data", data)
             review = {}
-            if "purchasecheck" in data:
-                has_purchased = True
-            else:
-                has_purchased = False
-
+            has_purchased = "purchasecheck" in data
+            name = f"{request.user.first_name} {request.user.last_name}"
+            if (name == " "):
+                name = request.user.username
             if has_purchased:
-                # car_id = int(data["car"])
-                # car = CarModel.objects.filter(id=car_id)
-                cars = CarModel.objects.filter(dealer_id=dealer_id)
-                for car in cars:
-                    print("CAR", car)
-                    if car.id == int(request.POST['car']):
-                        review_car = car
-                # print("CAR", car)
-                # CAR Name: Patriot,Dealer ID: 7,Type: suv,Year: 2017
-                # review["car_make"] = car["Name"]
-                # review["car_model"] = car["Type"]
-                # review["car_year"]= car["Year"].strftime("%Y")
-
-            review["name"] = f"{request.user.first_name} {request.user.last_name}"
+                car = CarModel.objects.get(pk=data["car"])
+                review["car_make"] = car.car_make.name
+                review["car_model"] = car.name
+                review["car_year"]= car.year.strftime("%Y")
+            else:
+                review["car_make"] = None
+                review["car_model"] = None
+                review["car_year"]= None
+            review["id"] = 0
+            review["name"] = name
             review["dealership"] = dealer_id
             review["review"] = data["content"]
-            review["purchase"] = data.get("purchasecheck")
-            review["purchasedate"] = has_purchased
+            review["purchase"] = has_purchased
+            review["purchase_date"] = data["purchasedate"]
 
-
-            json_payload["review"] = review
-            response = post_request(url, json_payload, dealerId=dealer_id)
-
-            print("add_review response", response)
+            try:
+                response = post_request(url, review, dealer_id=dealer_id)
+            except Exception as error:
+                print("Post Review Error:", error)
+            
             return redirect("djangoapp:dealer_details", dealer_id=dealer_id)
