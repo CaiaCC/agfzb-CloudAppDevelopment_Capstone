@@ -13,6 +13,11 @@
 
 </head>
     <body>
+        <script>
+            $(function() {
+              $('#table').bootstrapTable()
+            })
+        </script>
         <!--Nav Bar -->
         <nav class="navbar navbar-light bg-light">
             <div class="container-fluid">
@@ -44,9 +49,9 @@
             </div>
         </nav>
 
-        <!--Add a dealer table here -->
+        <!--dealer table-->
         <main>
-            <table class="table" id="table">
+            <table class="table" id="table" data-filter-control="true">
                 <thead>
                     <tr>
                         <th data-field="id">ID</th>
@@ -54,7 +59,7 @@
                         <th data-field="city">City</th>
                         <th data-field="address">Address</th>
                         <th data-field="zip">Zip</th>
-                        <th data-field="st">State</th>
+                        <th data-field="st" data-filter-control="select">State</th>
                     </tr>
                 </thead>
                 <tbody>
