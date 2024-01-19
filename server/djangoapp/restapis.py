@@ -102,9 +102,11 @@ def analyze_review_sentiments(review):
     response = requests.post(NLU_URL, data=params, headers={'Content-Type':'application/json'}, auth=HTTPBasicAuth("apikey", NLU_API_KEY))
     
     try:
-        label = respons.json()['sentiment']['document']['label']
+        label = response.json()['sentiment']['document']['label']
+        print ("label", label)
         return label
-    except Exception:
+    except Exception as error:
+        print("Error:", error)
         return 'neutral'
 
 
