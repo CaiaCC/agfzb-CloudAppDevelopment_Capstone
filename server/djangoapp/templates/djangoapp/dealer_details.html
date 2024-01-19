@@ -19,7 +19,7 @@
                     {% if user.is_authenticated %}
                     <li>
                         <a class="btn btn-link" href="#">Hi, {{ user.username }}</a>
-                        <a class="btn btn-link" href="{% url 'djangoapp:add_review' dealer_id %}">Add Review</a>
+                        <a class="btn btn-link" href="add_review">Add Review</a>
                         <a class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
                     </li>
                     {% else %}
@@ -41,16 +41,18 @@
 
          <!-- Add reviews as cards -->
         <main>
-            <h1>Reviews</h1>
-            <div class="card-columns">
-                {% for dealer in dealership_list %}
-                <div class="card">
-                    <img class="card-img-left" src="{{MEDIA_URL}}/emoji/{{review.sentiment}}.png" width="30" height="30">
-                    <div class="card-body">
-                        <h2 class="card-title">{{review.name}}</h5>
-                        <p class="card-text">{{review.review}}</p>
+            <div class="card-columns ml-5 p-5">
+                {% for review in review_list %}
+                    <div class="card">
+                        <div class="card-header">
+                            <img class="card-img-left" src="{{MEDIA_URL}}/emoji/{{review.sentiment}}.png" width="50" height="50">
+                        </div>
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">{{ review.review }}</p>
+                            <p class="card-text text-secondary"> —— {{review.name}}</p>
+                        </div>
                     </div>
-                </div>
                 {% endfor %}
             </div>
         </main>
@@ -63,7 +65,7 @@
                     <a class="nav-link px-2 text-light" href="{% url 'djangoapp:contact' %}">Contact Us</a>
                 <li>
             </ul>
-            <p class="text-center text-light">© 2024 Best Cars dealership</p>
+            <p class="text-center text-muted">© 2024 Best Cars dealership</p>
         </footer>
     </body>
 </html>

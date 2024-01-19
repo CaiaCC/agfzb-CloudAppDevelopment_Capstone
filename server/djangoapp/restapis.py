@@ -67,7 +67,7 @@ def get_dealer_reviews_from_cf(url, dealerId):
     results = []
     # Call get_request with URL and dealerId parameter
     json_result = get_request(url, id=dealerId)
-    print("get_dealer_reviews_from_cf", json_result)
+    # print("get_dealer_reviews_from_cf", json_result)
     if json_result:
         # Get the row list in JSON as reviews
         reviews = json_result
@@ -99,6 +99,12 @@ def analyze_review_sentiments(review):
     # features = ["sentiment"]
     # analysis = get_request(NLU_URL, apikey=NLU_API_KEY, features=features, text=review)
     params = json.dumps({"text": review, "features": {"sentiment": {}}})
-    analysis = requests.post(NLU_URL, data=params, headers={'Content-Type':'application/json'}, auth=HTTPBasicAuth("apikey", NLU_API_KEY))
-    print("sentiment analysis", analysis)
-    return "Sentiment PlaceHolder"
+    response = requests.post(NLU_URL, data=params, headers={'Content-Type':'application/json'}, auth=HTTPBasicAuth("apikey", NLU_API_KEY))
+    
+    try:
+        label = respons.json()['sentiment']['document']['label']
+        return label
+    except Exception:
+        return 'neutral'
+
+
